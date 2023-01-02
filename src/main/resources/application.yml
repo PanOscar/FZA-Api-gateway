@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: API-GATEWAY
+
+
+  cloud:
+    gateway:
+      routes:
+        - id: CHAT-SERVICE
+          uri: https://fza-chat.herokuapp.com/
+          predicates:
+            - Path=/messages/**,/rooms/**,/**
+
+        - id: AUTH-SERVICE
+          uri: https://fza-auth-laravel.herokuapp.com/
+          predicates:
+            - Path=/user/**
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://fza-api-gateway.herokuapp.com:8761/eureka
